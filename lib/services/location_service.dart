@@ -10,6 +10,7 @@ class LocationService {
       location: const LatLng(48.8584, 2.2945),
       category: PlaceCategory.landmark,
       rating: 4.8,
+      ticketPriceNpr: 1500.0,
     ),
     MapPlace(
       id: '2',
@@ -18,6 +19,7 @@ class LocationService {
       location: const LatLng(48.8606, 2.3376),
       category: PlaceCategory.museum,
       rating: 4.7,
+      ticketPriceNpr: 1200.0,
     ),
     MapPlace(
       id: '3',
@@ -26,6 +28,7 @@ class LocationService {
       location: const LatLng(41.8902, 12.4922),
       category: PlaceCategory.landmark,
       rating: 4.9,
+      ticketPriceNpr: 1800.0,
     ),
     MapPlace(
       id: '4',
@@ -34,6 +37,7 @@ class LocationService {
       location: const LatLng(40.7851, -73.9683),
       category: PlaceCategory.park,
       rating: 4.8,
+      ticketPriceNpr: 500.0,
     ),
     MapPlace(
       id: '5',
@@ -42,6 +46,7 @@ class LocationService {
       location: const LatLng(-33.8568, 151.2153),
       category: PlaceCategory.landmark,
       rating: 4.9,
+      ticketPriceNpr: 2000.0,
     ),
     MapPlace(
       id: '6',
@@ -50,6 +55,7 @@ class LocationService {
       location: const LatLng(48.8530, 2.3388),
       category: PlaceCategory.restaurant,
       rating: 4.5,
+      ticketPriceNpr: 850.0,
     ),
   ];
 

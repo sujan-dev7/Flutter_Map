@@ -16,6 +16,8 @@ class MapPlace {
   final LatLng location;
   final PlaceCategory category;
   final double rating;
+  final bool isFavorite;
+  final double ticketPriceNpr;
 
   const MapPlace({
     required this.id,
@@ -24,7 +26,31 @@ class MapPlace {
     required this.location,
     required this.category,
     this.rating = 4.5,
+    this.isFavorite = false,
+    this.ticketPriceNpr = 250.0,
   });
+
+  MapPlace copyWith({
+    String? id,
+    String? title,
+    String? description,
+    LatLng? location,
+    PlaceCategory? category,
+    double? rating,
+    bool? isFavorite,
+    double? ticketPriceNpr,
+  }) {
+    return MapPlace(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      location: location ?? this.location,
+      category: category ?? this.category,
+      rating: rating ?? this.rating,
+      isFavorite: isFavorite ?? this.isFavorite,
+      ticketPriceNpr: ticketPriceNpr ?? this.ticketPriceNpr,
+    );
+  }
 
   IconData get icon {
     switch (category) {

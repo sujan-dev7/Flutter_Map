@@ -1,17 +1,32 @@
 import 'package:flutter/material.dart';
 import '../models/map_place.dart';
+import '../services/esewa_service.dart';
+import 'esewa_checkout_dialog.dart';
 
 class PlaceDetailSheet extends StatelessWidget {
   final MapPlace place;
   final VoidCallback onNavigateTo;
+  final VoidCallback onToggleFavorite;
   final VoidCallback? onDelete;
 
   const PlaceDetailSheet({
     super.key,
     required this.place,
     required this.onNavigateTo,
+    required this.onToggleFavorite,
     this.onDelete,
   });
+
+  void _openEsewaCheckout(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => EsewaCheckoutDialog(
+        title: '${place.title} Entry / Booking Fee',
+        amountNpr: place.ticketPriceNpr,
+        recipientName: place.title,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +108,14 @@ class PlaceDetailSheet extends StatelessWidget {
                   ],
                 ),
               ),
+              IconButton(
+                icon: Icon(
+                  place.isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: place.isFavorite ? Colors.redAccent : Colors.grey,
+                ),
+                onPressed: onToggleFavorite,
+                tooltip: place.isFavorite ? 'Remove from Saved' : 'Save Place',
+              ),
               if (onDelete != null)
                 IconButton(
                   icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
@@ -110,6 +133,8 @@ class PlaceDetailSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
+
+          // Coordinates Box
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
@@ -132,7 +157,56 @@ class PlaceDetailSheet extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
+
+          // eSewa Payment Banner Button
+          InkWell(
+            onTap: () => _openEsewaCheckout(context),
+            borderRadius: BorderRadius.circular(14),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              decoration: BoxDecoration(
+                color: EsewaService.esewaColor.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: EsewaService.esewaColor),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: const BoxDecoration(
+                      color: EsewaService.esewaColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.account_balance_wallet, color: Colors.white, size: 18),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Entry Fee: NPR ${place.ticketPriceNpr.toStringAsFixed(0)}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: EsewaService.esewaDarkGreen,
+                          ),
+                        ),
+                        const Text(
+                          'Instant digital checkout with eSewa',
+                          style: TextStyle(fontSize: 11, color: Colors.black54),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(Icons.arrow_forward_ios, size: 14, color: EsewaService.esewaDarkGreen),
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
